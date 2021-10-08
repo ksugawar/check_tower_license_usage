@@ -14,20 +14,6 @@
   tasks:
     # - debug:
     #     msg: "{{ tower_verify_ssl }}"
-    # - name: get csrftoken token cookie
-    #   uri:
-    #     url: "https://{{ tower_host }}/api/login/"
-    #     method: 'GET'
-    #   register: login
-
-    # - debug:
-    #     msg: "{{ login }}"
-
-    # - name: authenticate with tower
-    #   uri:
-    #     url: "https://{{ tower_host }}/api/login/"
-    #     method: 'POST'
-    #     body_format: '...'
 
     - name: retrieve license info from Tower
       uri:
@@ -50,6 +36,12 @@
         method: 'GET'
         body_format: 'json'
       register: hosts
+
+    - debug:
+        var: settings
+
+    - debug:
+        var: hosts
 
     - set_fact:
         max: "{{ settings.results.LICENSE.instance_count }}"
