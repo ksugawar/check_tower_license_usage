@@ -18,17 +18,21 @@
     - name: retrieve license info from Tower
       uri:
         url: "https://{{ tower_host }}/api/v2/settings/all/"
-        user: "{{ tower_username }}"
-        password: "{{ tower_password }}"
+        url_username: "{{ tower_username }}"
+        url_password: "{{ tower_password }}"
         validate_certs: "{{ tower_verify_ssl }}"
+        headers: 'Content-Type: application/json'
+        method: 'GET'
       register: settings
 
     - name: retrieve hosts in all inventories from Tower
       uri:
         url: "https://{{ tower_host }}/api/v2/hosts/"
-        user: "{{ tower_username }}"
-        password: "{{ tower_password }}"
+        url_username: "{{ tower_username }}"
+        url_password: "{{ tower_password }}"
         validate_certs: "{{ tower_verify_ssl }}"
+        headers: 'Content-Type: application/json'
+        method: 'GET'
       register: hosts
 
     - set_fact:
