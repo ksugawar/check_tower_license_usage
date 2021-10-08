@@ -12,6 +12,9 @@
     threshold: 10
 
   tasks:
+    - debug:
+        msg: "{{ tower_verify_ssl }}"
+
     - name: retrieve license info from Tower
       uri:
         url: "https://{{ tower_host }}/api/v2/settings/all/"
