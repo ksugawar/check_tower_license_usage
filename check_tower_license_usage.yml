@@ -5,7 +5,7 @@
     tower_host: "{{ lookup('env', 'TOWER_HOST') }}"
     tower_username: "{{ lookup('env', 'TOWER_USERNAME') }}"
     tower_password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
-    tower_verify_ssl: "{{ lookup('env', 'TOWER_VERIFY_SSL') | default(false) }}"
+    tower_verify_ssl: "{{ lookup('env', 'TOWER_VERIFY_SSL') }}"
     # fail if remaining license count falls below this threshold
     threshold: 10
 
