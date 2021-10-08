@@ -7,7 +7,7 @@
     tower_password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
     # if oauth token is used, comment out tower_username and tower_password, and uncomment tower_oauth_token below
     # tower_oauth_token: "{{ lookup('env', 'TOWER_OAUTH_TOKEN') }}"
-    tower_verify_ssl: "{{ lookup('env', 'TOWER_VERIFY_SSL') }}"
+    tower_verify_ssl: "{{ lookup('env', 'TOWER_VERIFY_SSL') | default(false) }}"
     # fail if remaining license count falls below this threshold
     threshold: 10
 
