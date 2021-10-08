@@ -44,8 +44,8 @@
     #     var: hosts
 
     - set_fact:
-        max: "{{ settings.json.LICENSE.instance_count }}"
-        used: "{{ hosts.json.count }}"
+        max: "{{ settings.json.LICENSE.instance_count | int }}"
+        used: "{{ hosts.json.count | int }}"
 
     - name: compare and fail if remaining license count falls below the threshold
       fail:
