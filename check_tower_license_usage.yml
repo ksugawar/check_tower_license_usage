@@ -12,15 +12,15 @@
     threshold: 10
 
   tasks:
-    - debug:
-        msg: "{{ tower_verify_ssl }}"
+    # - debug:
+    #     msg: "{{ tower_verify_ssl }}"
 
     - name: retrieve license info from Tower
       uri:
         url: "https://{{ tower_host }}/api/v2/settings/all/"
         user: "{{ tower_username }}"
         password: "{{ tower_password }}"
-        validate_certs: "{[ tower_verify_ssl }}"
+        validate_certs: "{{ tower_verify_ssl }}"
       register: settings
 
     - name: retrieve hosts in all inventories from Tower
@@ -28,7 +28,7 @@
         url: "https://{{ tower_host }}/api/v2/hosts/"
         user: "{{ tower_username }}"
         password: "{{ tower_password }}"
-        validate_certs: "{[ tower_verify_ssl }}"
+        validate_certs: "{{ tower_verify_ssl }}"
       register: hosts
 
     - set_fact:
