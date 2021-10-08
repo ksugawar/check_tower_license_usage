@@ -37,15 +37,15 @@
         body_format: 'json'
       register: hosts
 
-    - debug:
-        var: settings
+    # - debug:
+    #     var: settings
 
-    - debug:
-        var: hosts
+    # - debug:
+    #     var: hosts
 
     - set_fact:
-        max: "{{ settings.results.LICENSE.instance_count }}"
-        used: "{{ hosts.results.count }}"
+        max: "{{ settings.json.LICENSE.instance_count }}"
+        used: "{{ hosts.json.count }}"
 
     - name: compare and fail if remaining license count falls below the threshold
       fail:
