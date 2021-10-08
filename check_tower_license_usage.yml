@@ -44,8 +44,16 @@
     #     var: hosts
 
     - set_fact:
-        max: "{{ settings.json.LICENSE.instance_count | int }}"
-        used: "{{ hosts.json.count | int }}"
+        max: "{{ settings.json.LICENSE.instance_count }}"
+        used: "{{ hosts.json.count }}"
+
+    - debug:
+        msg: "There are still {{ max|int - used|int }} licenses remaining to be used: Valid licenses = {{ max }} / Used licenses = {{ used }}"
+      when: ((max|int) - (used|int)) >= (threshold|int)
+
+    - debug:
+        msg: "Running out of licenses: Valid licenses = {{ max }} / Used licenses = {{ used }}"
+      when: ((max|int) - (used|int)) < (threshold|int)
 
     - name: compare and fail if remaining license count falls below the threshold
       fail:
