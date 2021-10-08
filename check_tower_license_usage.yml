@@ -50,4 +50,4 @@
     - name: compare and fail if remaining license count falls below the threshold
       fail:
         msg: "Running out of licenses: Valid licenses = {{ max }} / Used licenses = {{ used }}"
-      when: max - used < threshold
+      when: ((max|int) - (used|int)) < (threshold|int)
