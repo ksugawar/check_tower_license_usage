@@ -1,0 +1,38 @@
+---
+- hosts: all
+  vars:
+    # the following variables are passed via Ansible Tower type credential from Tower server
+    tower_host: "{{ lookup('env', 'TOWER_HOST') }}"
+    tower_username: "{{ lookup('env', 'TOWER_USERNAME') }}"
+    tower_password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
+    # if oauth token is used, comment out tower_username and tower_password, and uncomment tower_oauth_token below
+    # tower_oauth_token: "{{ lookup('env', 'TOWER_OAUTH_TOKEN') }}"
+    tower_verify_ssl: "{{ lookup('env', 'TOWER_VERIFY_SSL') }}"
+    # fail if remaining license count falls below this threshold
+    threshold: 10
+
+  tasks:
+    - name: retrieve license info from Tower
+      uri:
+        url: "https://{{ tower_host }}/api/v2/settings/all/"
+        user: "{{ tower_username }}"
+        password: "{{ tower_password }}"
+        validate_certs: "{[ tower_verify_ssl }}"
+      register: settings
+
+    - name: retrieve hosts in all inventories from Tower
+      uri:
+        url: "https://{{ tower_host }}/api/v2/hosts/"
+        user: "{{ tower_username }}"
+        password: "{{ tower_password }}"
+        validate_certs: "{[ tower_verify_ssl }}"
+      register: hosts
+
+    - set_fact:
+        max: "{{ settings.results.LICENSE.instance_count }}"
+        used: "{{ hosts.results.count }}"
+
+    - name: compare and fail if remaining license count falls below the threshold
+      fail:
+        msg: "Running out of licenses: Valid licenses = {{ max }} / Used licenses = {{ used }}"
+      when: max - used < threshold
