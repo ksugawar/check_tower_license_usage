@@ -53,7 +53,7 @@
         msg: "Running out of licenses"
       when: remaining|int < threshold
 
-    - name: compare and fail if remaining license count falls below the threshold
+    - name: fail if remaining < threshold
       fail:
         msg: "Running out of licenses"
       when: remaining|int < threshold
