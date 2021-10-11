@@ -40,17 +40,20 @@
         used: "{{ hosts.json.count }}"
 
     - set_fact:
-        available: "{{ max|int - used|int }}"
+        remaining: "{{ max|int - used|int }}"
 
     - debug:
-        msg: "There are still {{ available }} licenses remaining to be used: Valid licenses = {{ max }} / Used licenses = {{ used }}"
-      when: available|int >= threshold
+        msg: "Valid={{ max }} / Used={{ used }} / Remaining={{ remaining }} / Threshold={{ threshold }}"
 
     - debug:
-        msg: "Running out of licenses: Valid licenses = {{ max }} / Used licenses = {{ used }}"
-      when: available|int < threshold
+        msg: "There are still plenty of licenses remaining to be used"
+      when: remaining|int >= threshold
+
+    - debug:
+        msg: "Running out of licenses"
+      when: remaining|int < threshold
 
     - name: compare and fail if remaining license count falls below the threshold
       fail:
-        msg: "Running out of licenses: Valid licenses = {{ max }} / Used licenses = {{ used }}"
-      when: available|int < threshold
+        msg: "Running out of licenses"
+      when: remaining|int < threshold
