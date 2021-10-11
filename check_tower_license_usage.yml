@@ -36,14 +36,14 @@
       register: hosts
 
     - set_fact:
-        max: "{{ settings.json.LICENSE.instance_count|int }}"
-        used: "{{ hosts.json.count|int }}"
+        max: "{{ settings.json.LICENSE.instance_count }}"
+        used: "{{ hosts.json.count }}"
 
     - set_fact:
-        available: "{{ max - used }}"
+        available: "{{ max|int - used|int }}"
 
     - debug:
-        msg: "There are still {{ max|int - used|int }} licenses remaining to be used: Valid licenses = {{ max }} / Used licenses = {{ used }}"
+        msg: "There are still {{ available }} licenses remaining to be used: Valid licenses = {{ max }} / Used licenses = {{ used }}"
       when: available >= threshold
 
     - debug:
