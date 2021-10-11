@@ -44,13 +44,13 @@
 
     - debug:
         msg: "There are still {{ available }} licenses remaining to be used: Valid licenses = {{ max }} / Used licenses = {{ used }}"
-      when: available >= threshold
+      when: available|int >= threshold
 
     - debug:
         msg: "Running out of licenses: Valid licenses = {{ max }} / Used licenses = {{ used }}"
-      when: available < threshold
+      when: available|int < threshold
 
     - name: compare and fail if remaining license count falls below the threshold
       fail:
         msg: "Running out of licenses: Valid licenses = {{ max }} / Used licenses = {{ used }}"
-      when: available < threshold
+      when: available|int < threshold
